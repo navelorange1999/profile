@@ -40,5 +40,5 @@ jobs:
       with:
           ACCESS_TOKEN: ${{ secrets.ACTION_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: out
+          FOLDER: dist
           CLEAN: true
