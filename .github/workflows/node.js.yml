@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-and-develop:
 
     runs-on: ubuntu-latest
 
@@ -21,10 +21,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn lint
-    - run: yarn build
+        
+    - name: Lint and Test
+      run: |
+        yarn install
+        yarn lint
+
+    - name: Build
+      run: yarn build
+
+    - name: Build and Develop
+      uses: JamesIves/github-pages-deploy-action@v4.2.3
+      with:
+          ACCESS_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: out
+          CLEAN: true
