@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -32,13 +32,10 @@ jobs:
         yarn install
         yarn lint
 
-    - name: Build
-      run: yarn build
-
     - name: Build and Develop
-      uses: JamesIves/github-pages-deploy-action@v4.2.3
-      with:
-          ACCESS_TOKEN: ${{ secrets.ACTION_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: dist
-          CLEAN: true
+      env: 
+        ACCESS_TOKEN: ${{secrets.ACTION_TOKEN}}
+      run: |
+        chmod +x ./scripts/develop.sh
+        ./scripts/develop.sh
+      shell: bash
